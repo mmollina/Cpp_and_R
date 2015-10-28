@@ -173,3 +173,5 @@ $ Enter the name of the input file: fake_bc.txt
 y<-read.table(file = "rec_cpp.txt")
 image.plot(as.matrix(y), col=rev(tim.colors()) )
 ```
+
+##Conecting R with C++
