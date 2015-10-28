@@ -1,10 +1,18 @@
 # Very Basic Introduction to C++ and R
 
-C++ is a powerful object-oriented programmimng laguage. The initial idea behind C++ was to extend the C language in a flexible way. Also, C++ provides high-level features for program organization. In this breaf introduction, we will focus mostly on the similarities fo C++ and C and how to integrate it with R using the package [Rcpp](http://www.rcpp.org/ "Rcpp"). 
+C++ is a powerful object-oriented programming language. The initial
+idea behind C++ was to extend the C language in a flexible way. Also,
+C++ provides high-level features for program organization. In this
+brief introduction, we will focus mostly on the similarities of C++
+and C and how to integrate it with R using the package
+[Rcpp](http://www.rcpp.org/ "Rcpp").
+
 
 ##Introduction to C++
 
-First let us start with some basic C++ examples. The very fisrt example is the famous "Hello world!"
+First let us start with some basic C++ examples. The very first
+example is the famous "Hello world!"
+
 
 ###Hello world!
 
@@ -25,12 +33,18 @@ int main()
     cout << "Hello, world!\n";
 }
 ```
-In contrast to R, a C++ code needs to be compiled, i.e. the human readeble language needs to be transtaletd into a binary code. The reason for this convertion is to create an executable program. 
+In contrast to R, a C++ code needs to be compiled, i.e. the human
+readable language needs to be translated into a binary code. The
+reason for this conversion is to create an executable program.
+
 
 ![](compiler.svg "Compilation process")
 
-Here we will use the C++ GNU compiler, wich is part of the [**GNU Compiler Collection**](https://gcc.gnu.org/ "GNU Compiler Collection").
-Usually, a compiler has its own syntax with specific flags. For a very cmpreensive list of flags for the GNU Compiler Collection, visit [GCC Preprocessor Options](https://gcc.gnu.org/onlinedocs/gcc-3.4.4/gcc/Preprocessor-Options.html "GCC Preprocessor Options").
+Here we will use the C++ GNU compiler (g++), which is part of the [**GNU Compiler Collection**](https://gcc.gnu.org/ "GNU Compiler Collection").
+Usually, a compiler has its own syntax with specific flags. For a very
+comprehensive list of flags for the GNU Compiler Collection, visit
+[GCC Preprocessor Options](https://gcc.gnu.org/onlinedocs/gcc-3.4.4/gcc/Preprocessor-Options.html
+"GCC Preprocessor Options").
 
 ``` bash
 g++ hello.cpp -O2 -Wformat -o hello
@@ -38,7 +52,9 @@ g++ hello.cpp -O2 -Wformat -o hello
 
 ## The `for` loop
 
-In the next example, a `for` loop is used to print all integer numbers from `a` to `b`:
+In the next example, a `for` loop is used to print all integer numbers
+from `a` to `b`:
+
 
 ``` c++ 
 #include <iostream>
@@ -67,7 +83,8 @@ g++ for_example.cpp -O2 -Wformat -o for_exemple
 
 ###Backcross example
 
-Now, let us wirte a C++ code to calculate the recombination fraction in a backcross: 
+Now, let us write a C++ code to calculate the recombination fraction
+in a backcross population: 
 
 ``` c++ 
 #include <iostream>
@@ -155,9 +172,11 @@ rec
 
 ## Why integrate C++ and R
 
-### Backcorss - a more realistc example
+### Backcross - a more realistic example
 
-Now let us simulate a backcross example with one chromosome, 200 individuals and 500 markers:
+Now let us simulate a backcross example with one chromosome, 200
+individuals and 500 markers:
+
 
 ``` r 
 source("simulate_diploid_populations.R")
@@ -166,8 +185,10 @@ dat.bc<-sim.pop.bc(n.ind = 250, n.mrk = 500, ch.len = 200, missing = 0, n.ch = 1
 dat.bc
 dat<-dat.bc$geno
 write.table(x=dat, file = "fake_bc.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, sep = " ")
+```
+Using R to obtain the recombination fractions
 
-##using for
+``` r
 rec<-matrix(NA,ncol(dat), ncol(dat))
 for(i in 1:(ncol(dat)-1)){
   for(j in (i+1):ncol(dat)){
@@ -192,18 +213,28 @@ $ Enter the name of the input file: fake_bc.txt
 y<-read.table(file = "rec_cpp.txt")
 image.plot(as.matrix(y), col=rev(tim.colors()) )
 ```
-At this point it seems to be obvious why one would use a C++ routine intead R to make any computation in a large amount of data. Now, let us integrate both.
+At this point it seems to be obvious why one would use a C++ routine
+intead R to make any computation in a large amount of data. Now, let
+us integrate both.
+
 
 ##Integrating R and C++
-Theoretcly, it is possible to integarte R and C++ using no packages at all. However the integration is way more easy if we use the package [Rcpp](http://www.rcpp.org/ "Rcpp").
+Theoretically, it is possible to integarte R and C++ using no packages
+at all. However the integration is way easier if we use the package
+[Rcpp](http://www.rcpp.org/ "Rcpp").
+
 
 ###Resources
 
-There is plenity of resources sread all over the internet. Here I am going to share some of my favorite.The following figure shows all the packages that depend on, is likned or imports Rcpp:
+There is plenty of resources spread all over the internet on this
+subject. Here I am going to share some of my favorite. The following
+figure shows all the packages that depend on, is linked or imports
+Rcpp:
+
 
 <br>
 
-[![Which packages depend on, is likned or imports Rcpp?](rcpp.png "Which packages depend on, is likned or imports Rcpp?")](https://cran.r-project.org/web/packages/Rcpp/index.html)
+[![Which packages depend on, is likned or imports Rcpp?](rcpp.png "Which packages depend on, is linked or imports Rcpp?")](https://cran.r-project.org/web/packages/Rcpp/index.html)
 
 <br>
 
@@ -213,7 +244,7 @@ There is plenity of resources sread all over the internet. Here I am going to sh
 
 <br>
 
-Very useful [Quik reference guide](https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-quickref.pdf).
+Very useful [Quick reference guide](https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-quickref.pdf).
  
 <br>
 
@@ -221,11 +252,16 @@ Let us use it!
 
 ###Ways to use Rcpp
 
-There are basically three ways to use RCpp and R: using the package `inline`, using the function `sourceCpp`or embedded into a R package.
+There are basically three ways to use RCpp and R: using the package
+`inline`, using the function `sourceCpp`or embedded into a R package.
+
 
 ####Using the package `inline`
 
-In R console, write the C++ code and save it in a string. In order to C++ and R comunicate to each other, it is necessary to use RCpp constructors, like `Rcpp::NumericMatrix`. 
+In R console, write the C++ code and save it in a string. In order to
+C++ and R communicate to each other, it is necessary to use RCpp
+constructors, like `Rcpp::NumericMatrix`.
+
 
 ``` r 
 src<-'
@@ -251,7 +287,8 @@ src<-'
     '
 ```
 
-Then, we need to compile the program and make it available to R using the following code:
+Then, we need to compile the program and make it available to R using
+the following code:
 
 ``` r 
 require(Rcpp)
@@ -259,11 +296,11 @@ require(inline)
 est_bc_inline <- cxxfunction(signature(genoR = "numeric"), body = src, plugin="Rcpp")
 ```
 
-The compilation process in this case is quite similar to the "pure" C++ compilatuion; However, intead of gerenaratin a executable file, it generates a "shared object" which R is capable to load:
-
+The compilation process in this case is quite similar to the "pure"
+C++ compilation; However, instead of generating a executable file, it
+generates a "shared object" which R is capable to load:
 
 ![](compile_R.svg "Compilation process including R")
-
 
 Now, it is just use it:
 
@@ -274,10 +311,10 @@ require(fields)
 image.plot(rec, col=rev(tim.colors()))
 ```
 
-More realistic example:
+A more realistic example:
 
 ``` r 
-##More markers
+##5000 markers
 source("simulate_diploid_populations.R")
 require(onemap)
 dat.bc<-sim.pop.bc(n.ind = 250, n.mrk = 5000, ch.len = 200, missing = 0, n.ch = 1, verbose = FALSE)
@@ -290,10 +327,22 @@ image.plot(rec, col=rev(tim.colors()))
 
 ####Using the function `sourceCpp`
 
-This approach is prety similar to the `inline`. Here, instead to write a code as a string in R, we use a separated `cpp` file with the directive `// [[Rcpp::export]]`.
-According to [Hadley Wickham's page](http://adv-r.had.co.nz/C-interface.html), at the C-level, all R objects are stored in a common datatype, the SEXP, or S-expression. All R objects are S-expressions so every C function that you create must return a SEXP as output and take SEXPs as inputs. (Technically, this is a pointer to a structure with typedef SEXPREC.). Take a moment to read Wickham's page. You will see a lot of "behind the scenes" about the integration C and R, whcih is more or less applyed to C++. 
+This approach is pretty similar to the `inline`. Here, instead to write
+a code as a string in R, we use a separated `cpp` file with the
+directive `// [[Rcpp::export]]`.
 
-Moreover, using the sourceRcpp page, it is possible to include external header files. We will address that in the next section.
+According to
+[Hadley Wickham's page](http://adv-r.had.co.nz/C-interface.html), at
+the C-level, all R objects are stored in a common datatype, the SEXP,
+or S-expression. All R objects are S-expressions so every C function
+that you create must return a SEXP as output and take SEXPs as
+inputs. (Technically, this is a pointer to a structure with typedef
+SEXPREC.). Take a moment to read Wickham's page. You will see a lot of
+"behind the scenes" about the integration C and R, which is more or
+less applied to C++.
+
+Moreover, using the sourceRcpp page, it is possible to include
+external header files. We will address that in the next section.
 
 ``` c++
 #include <Rcpp.h>
@@ -322,7 +371,8 @@ SEXP est_bc_source(Rcpp::NumericMatrix genoR) {
 }
 ```
 
-Save the code in a file named "rcpp_source_example.cpp", for example and load the C++ code in R using
+Save the code in a file named "rcpp_source_example.cpp", for example
+and load the C++ code in R using
 
 ``` r 
 require(Rcpp)
@@ -334,8 +384,13 @@ image.plot(rec, col=rev(tim.colors()))
 
 ##Creating packages in R with C++ code embedded
 
-This is the most tricky and, at the same time, most powerful way to use C++ codes in R. Here 
-we will construct a package that coumputes recombination fractions in populations derived from backcross, F2 and outcross experimental crossings. This topic does not intent to teach how to build a package, nevrtheless, if you follow the steps described here, you will be abla to understand the structure and how to compile a package using R and C++.
+This is the most tricky and, at the same time, most powerful way to
+use C++ codes in R. Here we will construct a package that computes
+recombination fractions in backcross, F2 and outcross experimental
+populations. This topic does not intent to teach how to build a
+package, nevertheless, if you follow the steps described here, you
+will be able to understand the structure and how to compile a package
+using R and C++.
 
 ### Preliminaries
 
@@ -350,7 +405,7 @@ devtools::install_github("klutometis/roxygen")
 require(roxygen2)
 ```
 
-###Creating package structure and pusshing it to GitHub
+###Create package structure and push it to GitHub
 
 
 3. Create the package structure
@@ -386,19 +441,25 @@ $ git remote add origin git@github.com:mmollina/rfpack.git
 $ git push -u origin master
 ```
 ###Inserting Cpp code
-6. Create a `src` (source code) direcroty. This directory will contain the C++ source code. C and FORTRAN codes also are located in this directory.
-
-7. Subdivide all functions in several cpp files with their respective header files: 
-
+6. Create a `src` (source code) directory. This directory will contain
+   the C++ source code. C and FORTRAN codes also are located in this
+   directory.
+   
+7. Subdivide all functions in several cpp files with their respective
+   header files:
+   
   - twopt_est_bc.cpp
-  - twopt_est_f2.cpp   
+  - twopt_est_f2.cpp
   - twopt_est_out.cpp
   - f2_est.cpp 
   - out_est.cpp 
   - utils.cpp 
   
-  Let us take a look into each one of these files [here](https://github.com/mmollina/rfpack/tree/master/src). The key here is to separate funcions into several files and connect them through their header files. Let us take a look at `utils.cpp` function:
-  
+  Let us take a look into each one of these files
+  [here](https://github.com/mmollina/rfpack/tree/master/src). The key
+  here is to separate functions into several files and connect them
+  through their header files. Let us take a look at `utils.cpp`
+  function:
   
   ``` c++
   #include <Rcpp.h>
@@ -417,7 +478,9 @@ $ git push -u origin master
     return(n);
   }
   ```
-  It is a simple function that transposes a matrix (4 x 4). Its associated header file is:
+  The previous function, is a simple function that transposes a matrix
+  (4 x 4). Its associated header file is:
+  
   
   ``` c++
   #include <Rcpp.h>
@@ -427,18 +490,34 @@ $ git push -u origin master
   Rcpp::NumericMatrix transpose_counts(Rcpp::NumericMatrix n);
 
   ```
-  Notice that this function is used in function `est_rf_out`, file `twopts_out.cpp`. What makes it possible is that at the begining at the file we included the `utils` header file:
+  Notice that this function is used in function `est_rf_out`, file
+  `twopts_out.cpp`. What makes it possible is that at the beginning at
+  the file we included the `utils` header file:
+  
   
   ``` c++
   #include "utils.h"
   ```
-  It is also important to notice that the type retuned by the function `transpose_counts` is `Rcpp::NumericMatrix`, which is exactly the type used when calling `transpose_counts` inside `est_rf_out`. 
+  
+  It is also important to notice that the type returned by the function
+  `transpose_counts` is `Rcpp::NumericMatrix`, which is exactly the
+  type used when calling `transpose_counts` inside `est_rf_out`.
+  
   
   
 ### Add R functions and documentation
 
-8. Here we will create three files: `simulate_pop.R` which contains a wraper for the simulation procedures, `est_rf` which contains a wraper to the recombination fraction estimation procedure and `utils.R` which contains all function related to the simulation procedure and the wraper to the C++ code which performs the real estimation of recombination fraction. Let us take a look into each one of these files [here](https://github.com/mmollina/rfpack/tree/master/R). 
-Most important here are functions that uses `.Call` function. Here is an example
+8. Here we will create three files: `simulate_pop.R` which contains a
+   wrapper for the simulation procedures, `est_rf` which contains a
+   wrapper to the recombination fraction estimation procedure and
+   `utils.R` which contains all function related to the simulation
+   procedure and the wrapper to the C++ code which performs the real
+   estimation of recombination fraction. Let us take a look into each
+   one of these files
+   [here](https://github.com/mmollina/rfpack/tree/master/R).
+
+   Most importantly, here take a close look at the functions that use
+   `.Call`. Here is an example:
 
 ``` r
 est_out<-function(geno, seg_type=NULL, nind)
@@ -455,15 +534,25 @@ est_out<-function(geno, seg_type=NULL, nind)
 }
 ```
 
-This is the sintax to call a C++ function inside R though Rcpp. The first argument is the name of the C++ function the following arguments are the ones into the C++ function and the last one is the name of the package. This function retuns a R `list`. This is due to how we return the results in the [C++ code](https://github.com/mmollina/rfpack/blob/master/src/twopt_est_out.cpp). 
+This is the syntax to call a C++ function inside R though Rcpp. The
+first argument is the name of the C++ function the following arguments
+are the ones into the C++ function and the last one is the name of the
+package. This function returns a R `list`. This is due to how we return
+the results in the
+[C++ code](https://github.com/mmollina/rfpack/blob/master/src/twopt_est_out.cpp).
 
 
-9. In this example, we use `roxygen2` to handle the documentation. Its sintax is quite simple. Here is an example of the function `simulate_poly`. This header should be placed at the beginning of the R file that contains the function `simulate_pop` 
+
+9. In this example, we use `roxygen2` to handle the documentation. Its
+   syntax is quite simple. Here is an example of the function
+   `simulate_poly`. This header should be placed at the beginning of
+   the R file that contains the function `simulate_pop`
+   
 
 ``` r
 #' A Simulation function
 #'
-#' This function simulates experimental crosses: backcroos, F2 and outcrossing populations.
+#' This function simulates experimental crosses: backcross, F2 and outcrossing populations.
 #' @param type type of cross. Must be one of the following: "bc" fro backcross, "f2" for f2 and "out" fro outcross.
 #' @param n.ind number of individuals
 #' @param n.mrk number of markers
@@ -488,7 +577,9 @@ This is the sintax to call a C++ function inside R though Rcpp. The first argume
 ###Compiling documentation
 10. In Rstudio, in the **Build** tab click on more and then in Document
 
-11. Manualy create `rfpack-internal.Rd` file containing the following code:
+11. Manually, create `rfpack-internal.Rd` file containing the
+    following code:
+	
 
 ``` r
 \name{rfpack-internal}
@@ -534,10 +625,12 @@ exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
 ```
 
-13. In this tab click in check. Rstudio will use `devtools` to make all checks in our package. This automaticaly compile the documentation and check for all sorts of errors, warnings and notes. Probably we will get some of them. 
-
-14. Now let us try to use our package
-
+13. In this tab click in check. Rstudio will use `devtools` to make
+    all checks in our package. This automatically compile the
+    documentation and check for all sorts of errors, warnings and
+    notes. Probably we will get some of them.
+	
+14. Now let us use our package!
 
 ``` r
 require(rfpack)
