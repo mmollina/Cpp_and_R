@@ -10,7 +10,7 @@ and C and how to integrate it with R using the package
 
 ##Introduction to C++
 
-First let us start with some basic C++ examples. The very first
+First, let us start with some basic C++ examples. The very first
 example is the famous "Hello world!"
 
 
@@ -40,7 +40,7 @@ reason for this conversion is to create an executable program.
 
 ![](compiler.png "Compilation process")
 
-Here we will use the C++ GNU compiler (g++), which is part of the [**GNU Compiler Collection**](https://gcc.gnu.org/ "GNU Compiler Collection").
+In this turorial, we will use the C++ GNU compiler (g++), which is part of the [**GNU Compiler Collection**](https://gcc.gnu.org/ "GNU Compiler Collection").
 Usually, a compiler has its own syntax with specific flags. For a very
 comprehensive list of flags for the GNU Compiler Collection, visit
 [GCC Preprocessor Options](https://gcc.gnu.org/onlinedocs/gcc-3.4.4/gcc/Preprocessor-Options.html
@@ -213,13 +213,16 @@ $ Enter the name of the input file: fake_bc.txt
 y<-read.table(file = "rec_cpp.txt")
 image.plot(as.matrix(y), col=rev(tim.colors()) )
 ```
-At this point it seems to be obvious why one would use a C++ routine
-intead R to make any computation in a large amount of data. Now, let
-us integrate both.
+Compare the times of execution. 
+
+**C++ is really efficient!**
 
 
 ##Integrating R and C++
-Theoretically, it is possible to integarte R and C++ using no packages
+
+At this point it seems to be obvious why one would use a C++ routine
+intead R to make any computation in a large amount of data. Now, let
+us integrate both. Theoretically, it is possible to integarte R and C++ using no packages
 at all. However the integration is way easier if we use the package
 [Rcpp](http://www.rcpp.org/ "Rcpp").
 
@@ -408,7 +411,7 @@ require(roxygen2)
 ###Create package structure and push it to GitHub
 
 
-3. Create the package structure
+3. Create the package structure. Lat us name our package **rfpack**.
 
 ``` r 
 create("rfpack")
@@ -424,13 +427,12 @@ Authors@R: person("Marcelo", "Mollinari", email = "mmollina@gmail.com", role = c
 Description: Computes recombination fraction in experimental populations: backcross, F2 and outcrossing species
 Depends: R (>= 3.2.2)
 License: GPL (>= 3.0)
-Imports: onemap
+Imports: Rcpp (>= 0.12.1), onemap, fields
 LinkingTo: Rcpp
-LazyData: true
 ```
 
 
-5. Go to the terminal and type
+5. Now, let us push this modifications to GitHub repository. Go to the terminal and type:
 
 ``` bash
 $ cd ~/repos/rfpack
@@ -442,10 +444,10 @@ $ git push -u origin master
 ```
 ###Inserting Cpp code
 6. Create a `src` (source code) directory. This directory will contain
-   the C++ source code. C and FORTRAN codes also are located in this
+   the C++ source code. Also, C and FORTRAN codes could be located in this
    directory.
    
-7. Subdivide all functions in several cpp files with their respective
+7. In this example, I subdivided all C++ functions in several cpp files with their respective
    header files:
    
   - twopt_est_bc.cpp
@@ -491,8 +493,8 @@ $ git push -u origin master
 
   ```
   Notice that this function is used in function `est_rf_out`, file
-  `twopts_out.cpp`. What makes it possible is that at the beginning at
-  the file we included the `utils` header file:
+  `twopts_out.cpp`. What makes it possible is that, at the beginning 
+  of `twopts_out.cpp`, we included `utils.h` header file:
   
   
   ``` c++
@@ -503,11 +505,9 @@ $ git push -u origin master
   `transpose_counts` is `Rcpp::NumericMatrix`, which is exactly the
   type used when calling `transpose_counts` inside `est_rf_out`.
   
-  
-  
 ### Add R functions and documentation
 
-8. Here we will create three files: `simulate_pop.R` which contains a
+8. Here we will create three R files: `simulate_pop.R` which contains a
    wrapper for the simulation procedures, `est_rf` which contains a
    wrapper to the recombination fraction estimation procedure and
    `utils.R` which contains all function related to the simulation
@@ -516,7 +516,7 @@ $ git push -u origin master
    one of these files
    [here](https://github.com/mmollina/rfpack/tree/master/R).
 
-   Most importantly, here take a close look at the functions that use
+   Most importantly, take a close look at the functions that use
    `.Call`. Here is an example:
 
 ``` r
@@ -540,7 +540,6 @@ are the ones into the C++ function and the last one is the name of the
 package. This function returns a R `list`. This is due to how we return
 the results in the
 [C++ code](https://github.com/mmollina/rfpack/blob/master/src/twopt_est_out.cpp).
-
 
 
 9. In this example, we use `roxygen2` to handle the documentation. Its
@@ -575,11 +574,10 @@ the results in the
 ```
 
 ###Compiling documentation
-10. In Rstudio, in the **Build** tab click on more and then in Document
+10. In Rstudio, in the `Build` tab, click in `more` and then in `Document`
 
-11. Manually, create `rfpack-internal.Rd` file containing the
-    following code:
-	
+11. Manually, create `rfpack-internal.Rd` file containing the with the 
+    internal that should not be directly called by the user:
 
 ``` r
 \name{rfpack-internal}
@@ -617,7 +615,9 @@ sim.pop.out(n.ind, n.mrk, ch.len, missing=0, prob=c(1,1,1,1,1,1,1), n.ch=1, verb
 
 ###Checking and building the package
 
-12. In order to Rcpp finds the shared libraries, we need to modify the NAMESPACE file.
+12. In order to Rcpp finds the shared libraries, we need to modify the NAMESPACE file. 
+If `roxygen2` created a  NAMESPACE file, you should delete first comment line and add the
+following lines:
 
 ```
 useDynLib(rfpack)
@@ -625,12 +625,19 @@ exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
 ```
 
-13. In this tab click in check. Rstudio will use `devtools` to make
+13. Now, click in `check`. Rstudio will use `devtools` to make
     all checks in our package. This automatically compile the
     documentation and check for all sorts of errors, warnings and
-    notes. Probably we will get some of them.
-	
-14. Now let us use our package!
+    notes. Probably we will get some of them, it is normal at the first time.
+    If you want to submit your pacjage to `CRAN`, all steps shoud 
+    pass trough the check procedure marked with OK! It could take 
+    some time to figure out some of the errors. But again, it is 
+    completely normal, just take your time and lots of research on 
+    internet and you will fix the errors.
+    Since your package were checked, you can click in `Build & Reload` 
+    button and use it!
+    
+14. So, let us use our package!
 
 ``` r
 require(rfpack)
