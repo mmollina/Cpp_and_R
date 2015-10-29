@@ -38,7 +38,7 @@ readable language needs to be translated into a binary code. The
 reason for this conversion is to create an executable program.
 
 
-![](compiler.svg "Compilation process")
+![](compiler.png "Compilation process")
 
 Here we will use the C++ GNU compiler (g++), which is part of the [**GNU Compiler Collection**](https://gcc.gnu.org/ "GNU Compiler Collection").
 Usually, a compiler has its own syntax with specific flags. For a very
@@ -300,7 +300,7 @@ The compilation process in this case is quite similar to the "pure"
 C++ compilation; However, instead of generating a executable file, it
 generates a "shared object" which R is capable to load:
 
-![](compile_R.svg "Compilation process including R")
+![](compile_R.png "Compilation process including R")
 
 Now, it is just use it:
 
