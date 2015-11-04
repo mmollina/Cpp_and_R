@@ -174,7 +174,7 @@ rec
 
 ### Backcross - a more realistic example
 
-Now let us simulate a backcross example with one chromosome, 200
+Now let us simulate a backcross example with one chromosome, 250
 individuals and 500 markers:
 
 
