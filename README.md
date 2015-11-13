@@ -84,7 +84,8 @@ g++ for_example.cpp -O2 -Wformat -o for_exemple
 ###Backcross example
 
 Now, let us write a C++ code to calculate the recombination fraction
-in a backcross population: 
+in a backcross population. The input file is a genotype by marker matrix, 
+with individuals in the rows and markers in the columns.
 
 ``` c++ 
 #include <iostream>
@@ -153,7 +154,7 @@ int main()
 Compiling and running
 
 ``` bash
-$ g++ bc_est.cpp -O2 -Wformat -o bc est
+$ g++ bc_est.cpp -O2 -Wformat -o bc_est
 $ ./bcest
 $ Enter the number of markers: 14
 $ Enter the number of individuals: 103
@@ -190,11 +191,13 @@ Using R to obtain the recombination fractions
 
 ``` r
 rec<-matrix(NA,ncol(dat), ncol(dat))
-for(i in 1:(ncol(dat)-1)){
-  for(j in (i+1):ncol(dat)){
-    rec[i,j]<-sum(table(dat[,i], dat[,j])[2:3])/nrow(dat)
+system.time(
+  for(i in 1:(ncol(dat)-1)){
+    for(j in (i+1):ncol(dat)){
+      rec[j,i]<-rec[i,j]<-sum(table(dat[,i], dat[,j])[2:3])/nrow(dat)
+    }
   }
-}
+)
 require(fields)
 image.plot(rec, col=rev(tim.colors()))
 
@@ -397,7 +400,7 @@ using R and C++.
 
 ### Preliminaries
 
-1. Create a new empty GitHub repository
+1. Create a new empty GitHub repository and clone it into your computer.
 
 2. Install packages `devtools` and `roxygen2`
 
@@ -443,7 +446,7 @@ $ git remote add origin git@github.com:mmollina/rfpack.git
 $ git push -u origin master
 ```
 ###Inserting Cpp code
-6. Create a `src` (source code) directory. This directory will contain
+6. Create a `src` (source code) directory into the rfpack directory. This directory will contain
    the C++ source code. Also, C and FORTRAN codes could be located in this
    directory.
    
@@ -629,18 +632,19 @@ importFrom(Rcpp, evalCpp)
     all checks in our package. This automatically compile the
     documentation and check for all sorts of errors, warnings and
     notes. Probably we will get some of them, it is normal at the first time.
-    If you want to submit your pacjage to `CRAN`, all steps shoud 
-    pass trough the check procedure marked with OK! It could take 
+    If you want to submit your package to `CRAN`, all steps shoud 
+    pass trough the check procedure marked with OK! It can take 
     some time to figure out some of the errors. But again, it is 
     completely normal, just take your time and lots of research on 
     internet and you will fix the errors.
-    Since your package were checked, you can click in `Build & Reload` 
+    Since your package was checked, you can click in `Build & Reload` 
     button and use it!
     
 14. So, let us use our package!
 
 ``` r
 require(rfpack)
+?simulate_pop
 dat<-simulate_pop(type="f2", n.ind = 250,
                    n.mrk = 1000, ch.len = 200,
                    dom43 = 20, dom51 = 20,

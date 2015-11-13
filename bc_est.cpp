@@ -28,7 +28,7 @@ int main()
     return (-1);
   }
   std::vector<std::vector<int> > geno(n_ind, std::vector<int>(n_mar, 0));
-  std::vector<std::vector<double> > rec(n_mar, std::vector<double>(n_mar, 0.5));
+  std::vector<std::vector<double> > rec(n_mar, std::vector<double>(n_mar, 0));
   for (int i = 0; i < geno.size(); i++) {
     for (int j = 0; j < geno[1].size(); j++) {
       in >> geno[i][j];
@@ -46,7 +46,7 @@ int main()
 	      if(geno[k][i]!=geno[k][j])
 		ct++;
 	    }
-	  rec[i][j]=ct/n_ind;
+	  rec[j][i]=rec[i][j]=ct/n_ind;
 	}
     }
 
@@ -54,8 +54,10 @@ int main()
   for (int i = 0; i < n_mar; i++) 
     {
       for (int j = 0; j < n_mar; j++) 
-	{
-	fout << rec[i][j] << " ";
+        {
+        fout << std::fixed;
+        fout << std::setprecision(2);
+        fout << rec[i][j] << " ";
       }
       fout << "\n";
     }
