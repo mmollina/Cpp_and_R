@@ -8,13 +8,13 @@ and C and how to integrate it with R using the package
 [Rcpp](http://www.rcpp.org/ "Rcpp").
 
 
-##Introduction to C++
+## Introduction to C++
 
 First, let us start with some basic C++ examples. The very first
 example is the famous "Hello world!"
 
 
-###Hello world!
+### Hello world!
 
 ``` c++ 
 #include <iostream>
@@ -81,7 +81,7 @@ Compiling
 g++ for_example.cpp -O2 -Wformat -o for_exemple
 ```
 
-###Backcross example
+### Backcross example
 
 Now, let us write a C++ code to calculate the recombination fraction
 in a backcross population. The input file is a genotype by marker matrix, 
@@ -221,7 +221,7 @@ Compare the times of execution.
 **C++ is really efficient!**
 
 
-##Integrating R and C++
+## Integrating R and C++
 
 At this point it seems to be obvious why one would use a C++ routine
 intead R to make any computation in a large amount of data. Now, let
@@ -230,7 +230,7 @@ at all. However the integration is way easier if we use the package
 [Rcpp](http://www.rcpp.org/ "Rcpp").
 
 
-###Resources
+### Resources
 
 There is plenty of resources spread all over the internet on this
 subject. Here I am going to share some of my favorite. The following
@@ -256,13 +256,13 @@ Very useful [Quick reference guide](https://cran.r-project.org/web/packages/Rcpp
 
 Let us use it!
 
-###Ways to use Rcpp
+### Ways to use Rcpp
 
 There are basically three ways to use RCpp and R: using the package
 `inline`, using the function `sourceCpp`or embedded into a R package.
 
 
-####Using the package `inline`
+#### Using the package `inline`
 
 In R console, write the C++ code and save it in a string. In order to
 C++ and R communicate to each other, it is necessary to use RCpp
@@ -331,7 +331,7 @@ choose(5000, 2)
 image.plot(rec, col=rev(tim.colors()))
 ```
 
-####Using the function `sourceCpp`
+#### Using the function `sourceCpp`
 
 This approach is pretty similar to the `inline`. Here, instead to write
 a code as a string in R, we use a separated `cpp` file with the
@@ -576,7 +576,7 @@ the results in the
 #' dat
 ```
 
-###Compiling documentation
+### Compiling documentation
 10. In Rstudio, in the `Build` tab, click in `more` and then in `Document`
 
 11. Manually, create `rfpack-internal.Rd` file containing the with the 
