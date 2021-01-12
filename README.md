@@ -388,7 +388,7 @@ choose(5000, 2)
 image.plot(rec, col=rev(tim.colors()))
 ```
 
-##Creating packages in R with C++ code embedded
+## Creating packages in R with C++ code embedded
 
 This is the most tricky and, at the same time, most powerful way to
 use C++ codes in R. Here we will construct a package that computes
